@@ -1,15 +1,15 @@
 
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("[DEBUG] app.js loaded");
+  console.log("app.js loaded");
 
   const db = firebase.firestore();
 
   // === SIGN UP ===
   const signupBtn = document.getElementById("signup-btn");
   if (signupBtn) {
-    console.log("[DEBUG] Signup page detected");
+    console.log("Signup page detected");
     signupBtn.addEventListener("click", async () => {
-      console.log("[DEBUG] Signup button clicked");
+      console.log("Signup button clicked");
       const username = document.getElementById("signup-username").value.trim();
       const password = document.getElementById("signup-password").value.trim();
 
@@ -53,9 +53,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // === LOGIN ===
   const loginBtn = document.getElementById("login-btn");
   if (loginBtn) {
-    console.log("[DEBUG] Login page detected");
+    console.log("Login page detected");
     loginBtn.addEventListener("click", async () => {
-      console.log("[DEBUG] Login button clicked");
+      console.log("Login button clicked");
       const username = document.getElementById("login-username").value.trim();
       const password = document.getElementById("login-password").value.trim();
 
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        console.log("[DEBUG] Login successful!");
+        console.log("Login successful!");
         sessionStorage.setItem("username", username);
         window.location.replace("index.html");
       } catch (err) {
