@@ -2,27 +2,80 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Home • GMU</title>
+  <title>Invisible CAPTCHA Capstone • GMU</title>
   <link rel="stylesheet" href="styles.css">
   <script src="/__/firebase/10.12.2/firebase-app-compat.js"></script>
   <script src="/__/firebase/10.12.2/firebase-firestore-compat.js"></script>
   <script src="/__/firebase/init.js"></script>
+  <style>
+    .project-image {
+      width: 220px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 2px solid #ffcc33;
+      margin: 15px auto;
+      display: block;
+      background: #0e2d69;
+    }
+    .learn-btn {
+      background-color: #ffcc33;
+      color: #000;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      text-decoration: none;
+      display: inline-block;
+      transition: 0.2s;
+    }
+    .learn-btn:hover {
+      background-color: #ffd633;
+      transform: scale(1.03);
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <h1 id="welcome">Loading...</h1>
-    <button id="logout-btn">Logout</button>
+
+    <div id="capstone-info" style="display: none;">
+      <img src="./placeholder.jpg" alt="Capstone Project Image" class="project-image">
+
+      <h2>Invisible CAPTCHA Project</h2>
+      <p>
+        Our capstone project, <strong>Invisible CAPTCHA</strong>, focuses on distinguishing humans from bots 
+        through behavioral and interaction-based analytics integrated into a secure web login system.
+      </p>
+
+      <p><strong>Sponsor:</strong> Dr. Mingwei Kui</p>
+
+      <p><strong>Mentor:</strong> Dr. Jair Ferrari</p>
+
+      <p><strong>Team Members:</strong><br>
+        Raymond Quan • Pragalv Bhattarai • Logan Breckenridge • Sai Gudapati • 
+        Faizan Munir • Jeremiah McCormick
+      </p>
+
+      <a href="https://github.com/CapstoneBlueteam/Website-Production" class="learn-btn" target="_blank">Learn More</a>
+      <br><br>
+      <button id="logout-btn">Logout</button>
+    </div>
   </div>
 
   <script>
     const username = sessionStorage.getItem("username");
     const welcome = document.getElementById("welcome");
+    const info = document.getElementById("capstone-info");
     const logoutBtn = document.getElementById("logout-btn");
 
     if (!username) {
       window.location.replace("login.html");
     } else {
-      welcome.textContent = `Welcome to GMU, ${username}!`;
+      welcome.textContent = `Welcome to Blue Team Demo Site, ${username}!`;
+      info.style.display = "block"; // Show after login
     }
 
     logoutBtn.onclick = () => {

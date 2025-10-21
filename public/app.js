@@ -1,13 +1,22 @@
-
+// === Secure + GMU Styled Version ===
 document.addEventListener("DOMContentLoaded", () => {
   console.log("app.js loaded");
-
   const db = firebase.firestore();
+
+  // Simple hashing function using the Web Crypto API
+  async function hashPassword(password) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+    return hashHex;
+  }
 
   // === SIGN UP ===
   const signupBtn = document.getElementById("signup-btn");
   if (signupBtn) {
-    console.log("Signup page detected");
+    console.log(" Signup page detected");
     signupBtn.addEventListener("click", async () => {
       console.log("Signup button clicked");
       const username = document.getElementById("signup-username").value.trim();
@@ -23,23 +32,21 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       try {
-        const existing = await db.collection("users")
-          .where("username", "==", username)
-          .get();
-
+        const existing = await db.collection("users").where("username", "==", username).get();
         if (!existing.empty) {
           alert("Username already exists!");
           grecaptcha.reset();
           return;
         }
 
+        const hashed = await hashPassword(password);
         await db.collection("users").add({
           username,
-          password, 
+          password: hashed,
           createdAt: new Date()
         });
 
-        alert("Account created! Please log in.");
+        alert(" Account created! Please log in.");
         window.location.replace("login.html");
       } catch (err) {
         console.error("Signup error:", err);
@@ -53,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // === LOGIN ===
   const loginBtn = document.getElementById("login-btn");
   if (loginBtn) {
-    console.log("Login page detected");
+    console.log(" Login page detected");
     loginBtn.addEventListener("click", async () => {
       console.log("Login button clicked");
       const username = document.getElementById("login-username").value.trim();
@@ -69,9 +76,10 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       try {
+        const hashed = await hashPassword(password);
         const query = await db.collection("users")
           .where("username", "==", username)
-          .where("password", "==", password)
+          .where("password", "==", hashed)
           .get();
 
         if (query.empty) {
@@ -80,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        console.log("Login successful!");
+        console.log(" Login successful!");
         sessionStorage.setItem("username", username);
         window.location.replace("index.html");
       } catch (err) {

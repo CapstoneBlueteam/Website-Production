@@ -5,6 +5,14 @@
     "rewrites": [
       { "source": "/", "destination": "/login.html" },
       { "source": "**", "destination": "/login.html" }
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(html|js|css)",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+        ]
+      }
     ]
   }
 }
